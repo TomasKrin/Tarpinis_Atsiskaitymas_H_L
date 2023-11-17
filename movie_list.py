@@ -52,6 +52,3 @@ movies = [
     ["Jinn", "2014", 4.1],
     ["The Last Airbender", "2010", 4.0],
 ]
-
-for name, year, rating in movies:
-    print(name, year, rating)
