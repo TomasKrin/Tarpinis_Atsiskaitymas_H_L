@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, create_engine
+from sqlalchemy import Column, Integer, String, Float, Date, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.util import deprecations
 
@@ -12,10 +12,12 @@ class Movies(Base):
     __tablename__ = "movies"
     id = Column(Integer, primary_key=True)
     name = Column(String)
+    release_year = Column(Date)
     rating = Column(Float)
 
-    def __init__(self, name, rating):
+    def __init__(self, name, release_year, rating):
         self.name = name
+        self.release_year = release_year
         self.rating = rating
 
 
