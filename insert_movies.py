@@ -1,6 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 from model import Movies, engine
-from movie_list import movies
+from utils.movie_list import movies
 
 Session = sessionmaker(bind=engine)
 session = Session()
