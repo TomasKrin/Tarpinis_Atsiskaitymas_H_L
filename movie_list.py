@@ -27,7 +27,7 @@ movies = [
     ["Saw II", "2005", 6.6],
     ["Star Wars: Episode I - The Phantom Menace", "1999", 6.5],
     ["Friday the 13th", "1980", 6.4],
-    ["Spider-Man 3", 6.3],
+    ["Spider-Man 3", "2007", 6.3],
     ["Indiana Jones and the Kingdom of the Crystal Skull", "2008", 6.2],
     ["Bee Movie", "2007", 6.1],
     ["The Fast and the Furious: Tokyo Drift", "2006", 6.0],
@@ -52,3 +52,6 @@ movies = [
     ["Jinn", "2014", 4.1],
     ["The Last Airbender", "2010", 4.0],
 ]
+
+for name, year, rating in movies:
+    print(name, year, rating)

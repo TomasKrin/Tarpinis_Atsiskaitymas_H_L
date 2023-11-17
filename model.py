@@ -12,7 +12,7 @@ class Movies(Base):
     __tablename__ = "movies"
     id = Column(Integer, primary_key=True)
     name = Column(String)
-    release_year = Column(Date)
+    release_year = Column(String)
     rating = Column(Float)
 
     def __init__(self, name, release_year, rating):
