@@ -5,9 +5,19 @@ from assets.movie_list import movies
 Session = sessionmaker(bind=engine)
 session = Session()
 
-if __name__ == "__main__":
+
+def add_all_movies() -> None:
     for name, year, rating in movies:
         session.add(Movies(name, year, rating))
+
+
+def add_movie() -> None:
+    pass
+
+
+def edit_movie(movie_id) -> None:
+    pass
+
 
 session.commit()
 session.close()
