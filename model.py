@@ -9,27 +9,27 @@ Base = declarative_base()
 
 
 class Movies(Base):
-    __tablename__ = "movies"
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    release_year = Column(String)
-    rating = Column(Float)
+    __tablename__: str = "movies"
+    id: int = Column(Integer, primary_key=True)
+    name: str = Column(String)
+    release_year: str = Column(String)
+    rating: float = Column(Float)
 
-    def __init__(self, name, release_year, rating):
-        self.name = name
-        self.release_year = release_year
-        self.rating = rating
+    def __init__(self, name, release_year, rating) -> None:
+        self.name: str = name
+        self.release_year: str = release_year
+        self.rating: float = rating
 
 
 class PlayerScores(Base):
-    __tablename__ = "player_scores"
-    id = Column(Integer, primary_key=True)
-    nickname = Column(String)
-    score = Column(Integer)
+    __tablename__: str = "player_scores"
+    id: int = Column(Integer, primary_key=True)
+    nickname: str = Column(String)
+    score: int = Column(Integer)
 
-    def __init__(self, nickname, score):
-        self.nickname = nickname
-        self.score = score
+    def __init__(self, nickname, score) -> None:
+        self.nickname: str = nickname
+        self.score: int = score
 
 
 Base.metadata.create_all(engine)
