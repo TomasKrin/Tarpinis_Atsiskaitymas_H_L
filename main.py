@@ -217,7 +217,12 @@ while True:
         print(logo)
         print('\n----------ADD MOVIE----------')
         name: str = input('Enter a name of the movie (egz. The Godfather): ')
-        year: str = input('Enter release year of the movie (egz. 1972): ')
+        while True:
+            year: str = input('Enter release year of the movie (egz. 1972): ')
+            if (len(year) == 4) and (year.isdigit()) and (year[:2] in ('20', '19', '18')):
+                break
+            else:
+                print('Enter a correct year, for egz.: 1972 \n')
         while True:
             try:
                 rating: float = float(input('Enter movie rating (egz. 9.2): '))
