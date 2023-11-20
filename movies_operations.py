@@ -15,6 +15,10 @@ def get_all_movies() -> list[Movies]:
     return session.query(Movies).all()
 
 
+def get_movie(movie_id: int) -> Movies:
+    return session.query(Movies).get(movie_id)
+
+
 def add_movie(name: str, release_year: str, rating: float) -> None:
     filtered_movies: list[Movies] = session.query(Movies).filter_by(name=name, release_year=release_year).all()
     if not filtered_movies:
