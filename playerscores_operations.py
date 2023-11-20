@@ -1,12 +1,8 @@
 from sqlalchemy import desc
-from sqlalchemy.orm import sessionmaker
-from model import PlayerScores, engine
-
-Session = sessionmaker(bind=engine)
-session = Session()
+from model import PlayerScores
 
 
-def add_highscore(user_nickname, user_score) -> None:
+def add_highscore(session, user_nickname, user_score) -> None:
     all_scores: list[PlayerScores] = session.query(PlayerScores).order_by(desc(PlayerScores.score)).all()
 
     if len(all_scores) < 10:
@@ -18,5 +14,5 @@ def add_highscore(user_nickname, user_score) -> None:
     session.commit()
 
 
-def get_highscores() -> list[PlayerScores]:
+def get_highscores(session) -> list[PlayerScores]:
     return session.query(PlayerScores).order_by(desc(PlayerScores.score)).all()

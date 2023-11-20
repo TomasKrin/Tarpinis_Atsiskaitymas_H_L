@@ -1,25 +1,21 @@
-from sqlalchemy.orm import sessionmaker
-from model import Movies, engine
+from model import Movies
 from assets.movie_list import movies
 
-Session = sessionmaker(bind=engine)
-session = Session()
 
-
-def add_all_movies() -> None:
+def add_all_movies(session) -> None:
     for name, year, rating in movies:
         session.add(Movies(name, year, rating))
 
 
-def get_all_movies() -> list[Movies]:
+def get_all_movies(session) -> list[Movies]:
     return session.query(Movies).all()
 
 
-def get_movie(movie_id: int) -> Movies:
+def get_movie(session, movie_id: int) -> Movies:
     return session.query(Movies).get(movie_id)
 
 
-def add_movie(name: str, release_year: str, rating: float) -> None:
+def add_movie(session, name: str, release_year: str, rating: float) -> None:
     filtered_movies: list[Movies] = session.query(Movies).filter_by(name=name, release_year=release_year).all()
     if not filtered_movies:
         session.add(Movies(name, release_year, rating))
@@ -29,7 +25,7 @@ def add_movie(name: str, release_year: str, rating: float) -> None:
         print(f'\nMovie: {name}({release_year}) - {rating}, already exists')
 
 
-def edit_movie(movie_id: int, choice: str, new_value: str | float) -> None:
+def edit_movie(session, movie_id: int, choice: str, new_value: str | float) -> None:
     movie_for_edit: Movies = session.query(Movies).get(movie_id)
     if choice == '1':
         movie_for_edit.name = new_value
@@ -40,6 +36,3 @@ def edit_movie(movie_id: int, choice: str, new_value: str | float) -> None:
     session.commit()
     edited: Movies = session.query(Movies).get(movie_id)
     print(f'Edited movie: ID: {edited.id} | {edited.name}({edited.release_year}) - {edited.rating}')
-
-
-session.close()
