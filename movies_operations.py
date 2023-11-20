@@ -1,10 +1,11 @@
 from model import Movies
-from assets.movie_list import movies
+from movie_list import movies
 
 
 def add_all_movies(session) -> None:
     for name, year, rating in movies:
         session.add(Movies(name, year, rating))
+    session.commit()
 
 
 def get_all_movies(session) -> list[Movies]:

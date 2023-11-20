@@ -1,23 +1,21 @@
 import random
 from sqlalchemy.orm import sessionmaker
 from model import Movies, PlayerScores, engine
-from assets.art import logo, vs
+from art import logo, vs
 from typing import Type
 from playerscores_operations import add_highscore, get_highscores
 from movies_operations import add_all_movies, get_all_movies, add_movie, edit_movie, get_movie
-from utils.utils import clear_screen, compare, check_inp_float, check_inp_year, check_inp_empty_str
+from utils import clear_screen, compare, check_inp_float, check_inp_year, check_inp_empty_str
 
 Session = sessionmaker(bind=engine)
 session = Session()
 
-all_movies: list[Movies] = get_all_movies(session)
-
-if len(all_movies) == 0:
+if not get_all_movies(session):
     add_all_movies(session)
 
 
 def assign_random_movie() -> Type[Movies]:  # +
-    return session.query(Movies).get(random.randint(1, len(all_movies)))
+    return session.query(Movies).get(random.randint(1, len(get_all_movies(session))))
 
 
 def play_higher_lower(nickname) -> None:
