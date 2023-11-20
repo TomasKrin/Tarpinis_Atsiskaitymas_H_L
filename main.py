@@ -10,10 +10,10 @@ from utils.utils import clear_screen, compare, check_inp_float, check_inp_year, 
 Session = sessionmaker(bind=engine)
 session = Session()
 
-all_movies: list[Movies] = get_all_movies()
+all_movies: list[Movies] = get_all_movies(session)
 
 if len(all_movies) == 0:
-    add_all_movies()
+    add_all_movies(session)
 
 
 def assign_random_movie() -> Type[Movies]:  # +
@@ -65,7 +65,7 @@ def play_higher_lower(nickname) -> None:
                 except ValueError:
                     print("Invalid Input")
 
-        add_highscore(nickname, score)
+        add_highscore(session, nickname, score)
         play_again: str = input('Want to Play Again? (y/n): ').lower()
 
         if play_again == 'y':
@@ -120,7 +120,7 @@ while True:
     elif selection == '2':
         clear_screen()
         print(logo)
-        highscores: list[PlayerScores] = get_highscores()
+        highscores: list[PlayerScores] = get_highscores(session)
         print('\n----------HIGHSCORES----------')
         for count, player_score in enumerate(highscores, 1):
             print(f'{count}. {player_score.nickname} - {player_score.score}')
@@ -129,6 +129,7 @@ while True:
         clear_screen()
         print(logo)
         print('\n----------MOVIES----------')
+        all_movies: list[Movies] = get_all_movies(session)
         for movie in all_movies:
             print(f'ID: {movie.id} | name: {movie.name} | release year: {movie.release_year} | rating: {movie.rating}')
         input('\nENTER --> Back to menu')
@@ -140,7 +141,7 @@ while True:
             try:
                 print("NOTE: You can check the movie ID's by selecting menu option number 3")
                 movie_id: int = int(input('Enter ID of the movie you would like to edit (egz. 1): '))
-                if not get_movie(movie_id):
+                if not get_movie(session, movie_id):
                     print(f"Movie with id: {movie_id}, doesn't exist")
                     continue
                 break
@@ -170,7 +171,7 @@ while True:
             new_value: float = check_inp_float('Enter a new rating value (egz: 9.2): ')
 
         if new_value != '':
-            edit_movie(movie_id, selected, new_value)
+            edit_movie(session, movie_id, selected, new_value)
         else:
             print('New value cannot be empty')
         input('\nENTER --> Back to menu')
@@ -182,7 +183,7 @@ while True:
         name: str = check_inp_empty_str('Enter a name of the movie (egz. The Godfather): ')
         year: str = check_inp_year('Enter release year of the movie (egz. 1972): ')
         rating: float = check_inp_float('Enter movie rating (egz. 9.2): ')
-        add_movie(name, year, rating)
+        add_movie(session, name, year, rating)
         input('\nENTER --> Back to menu')
     else:
         print("Invalid Input")
