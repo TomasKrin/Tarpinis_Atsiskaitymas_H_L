@@ -4,8 +4,8 @@ from model import Movies, PlayerScores, engine
 from assets.art import logo, vs
 from typing import Type
 from playerscores_operations import add_highscore, get_highscores
-from movies_operations import add_all_movies, get_all_movies, add_movie, edit_movie
-from utils.utils import clear_screen, compare
+from movies_operations import add_all_movies, get_all_movies, add_movie, edit_movie, get_movie
+from utils.utils import clear_screen, compare, check_inp_float, check_inp_year, check_inp_empty_str
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -79,7 +79,6 @@ def play_higher_lower(nickname) -> None:
             print("Invalid Input Taken as no.")
 
 
-# meniu
 print(logo)
 while True:
     user_nickname: str = input('Enter your nickname:\n')
@@ -141,6 +140,9 @@ while True:
             try:
                 print("NOTE: You can check the movie ID's by selecting menu option number 3")
                 movie_id: int = int(input('Enter ID of the movie you would like to edit (egz. 1): '))
+                if not get_movie(movie_id):
+                    print(f"Movie with id: {movie_id}, doesn't exist")
+                    continue
                 break
             except ValueError:
                 print('Incorrect number of id, for egz.: 1')
@@ -150,12 +152,10 @@ while True:
               '\n2. Release year'
               '\n3. Rating'
               '\nb - Back to main menu')
-
         selected = input('\n>>> ')
 
         if selected == 'b':
             continue
-
         if selected not in ('1', '2', '3'):
             print('Invalid input')
             continue
@@ -163,46 +163,25 @@ while True:
         new_value: str | float = ''
 
         if selected == '1':
-            new_value: str = input(f'Enter a new movie name value: ')
+            new_value: str = input('Enter a new movie name value: ')
         elif selected == '2':
-            while True:
-                new_value: str = input(f'Enter a new release year value: ')
-                if (len(new_value) == 4) and (new_value.isdigit()) and (new_value[:2] in ('20', '19', '18')):
-                    break
-                else:
-                    print('Enter a correct year, for egz.: 1972 \n')
+            new_value = check_inp_year('Enter a new release year value: ')
         elif selected == '3':
-            while True:
-                try:
-                    new_value: float = float(input('Enter a new rating value (egz: 9.2): '))
-                    break
-                except ValueError:
-                    print('Invalid rating value, should be for egz.: 9.2:')
+            new_value: float = check_inp_float('Enter a new rating value (egz: 9.2): ')
 
         if new_value != '':
             edit_movie(movie_id, selected, new_value)
         else:
             print('New value cannot be empty')
-
         input('\nENTER --> Back to menu')
 
     elif selection == '5':
         clear_screen()
         print(logo)
         print('\n----------ADD MOVIE----------')
-        name: str = input('Enter a name of the movie (egz. The Godfather): ')
-        while True:
-            year: str = input('Enter release year of the movie (egz. 1972): ')
-            if (len(year) == 4) and (year.isdigit()) and (year[:2] in ('20', '19', '18')):
-                break
-            else:
-                print('Enter a correct year, for egz.: 1972 \n')
-        while True:
-            try:
-                rating: float = float(input('Enter movie rating (egz. 9.2): '))
-                break
-            except ValueError:
-                print('Invalid rating value, should be for egz.: 9.2:')
+        name: str = check_inp_empty_str('Enter a name of the movie (egz. The Godfather): ')
+        year: str = check_inp_year('Enter release year of the movie (egz. 1972): ')
+        rating: float = check_inp_float('Enter movie rating (egz. 9.2): ')
         add_movie(name, year, rating)
         input('\nENTER --> Back to menu')
     else:
