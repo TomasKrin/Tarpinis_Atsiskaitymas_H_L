@@ -164,7 +164,7 @@ while True:
         if selected == '1':
             new_value: str = input('Enter a new movie name value: ')
         elif selected == '2':
-            new_value = check_inp_year('Enter a new release year value: ')
+            new_value: str = check_inp_year('Enter a new release year value: ')
         elif selected == '3':
             new_value: float = check_inp_float('Enter a new rating value (egz: 9.2): ')
 
