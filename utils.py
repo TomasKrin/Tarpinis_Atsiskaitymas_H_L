@@ -13,10 +13,7 @@ def compare(rating1: float, rating2: float, user_input: int) -> bool:  # +
     elif rating1 <= rating2:
         higher = 2
 
-    if higher == user_input:
-        return True
-    else:
-        return False
+    return higher == user_input
 
 
 def check_inp_float(msg: str) -> float:
